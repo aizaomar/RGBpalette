@@ -18,18 +18,66 @@ class ViewController: UIViewController {
     @IBOutlet private var redLabel: UILabel!
     @IBOutlet private var greenLabel: UILabel!
     @IBOutlet private var blueLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        redSlider.minimumTrackTintColor = .red
+        greenSlider.minimumTrackTintColor = .green
+        
+        setColor()
+        setValue(for: redLabel, greenLabel, blueLabel)
+    }
 
-    @IBAction private func paletteUpdate() {
-        let red = CGFloat(redSlider.value)
-        let green = CGFloat(greenSlider.value)
-        let blue = CGFloat(blueSlider.value)
-        
-        redLabel.text = String(format: "%.2f", redSlider.value)
-        greenLabel.text = String(format: "%.2f", greenSlider.value)
-        blueLabel.text = String(format: "%.2f", blueSlider.value)
-        
-        palette.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
+    @IBAction func rgbSlider(_ sender: UISlider) {
+        setColor()
+        switch sender {
+        case redSlider:
+            redLabel.text = string(from: redSlider)
+        case greenSlider:
+            greenLabel.text = string(from: greenSlider)
+        default:
+            blueLabel.text = string(from: blueSlider)
+        }
+    }
+    
+    private func setColor() {
+        palette.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
+    }
+    
+    private func setValue(for labels: UILabel...) {
+        labels.forEach { label in
+            switch label {
+            case redLabel:
+                redLabel.text = string(from: redSlider)
+            case greenLabel:
+                greenLabel.text = string(from: greenSlider)
+            default:
+                blueLabel.text = string(from: blueSlider)
+            }
+        }
+    }
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
     }
 }
 
-//Округление String(format: "%.2f", redSlider.value) взято отсюда https://stackoverflow.com/questions/34929932/round-up-double-to-2-decimal-places/34930127
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  
+
+
